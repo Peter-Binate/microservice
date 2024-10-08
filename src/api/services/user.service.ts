@@ -45,6 +45,16 @@ export class UserService {
     return token;
   }
 
+  async findAll() {
+    const users = await User.findMany();
+    if (!users) throw new Error("No users found");
+  }
+
+  async findOne(id: string) {
+    const user = await User.findOne({ id });
+    if (!user) throw new Error(`No user found with the id: ${id}`);
+  }
+
   async update(id: string, dto: UpdateUserDto): Promise<IUser> {
     const { email, password, role } = dto;
     try {
