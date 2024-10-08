@@ -8,7 +8,9 @@
     "dev": "nodemon --watch 'src/**/*.ts' --exec 'ts-node' app.ts"
   },
   "dependencies": {
+    "bcrypt": "^5.1.1",
     "express": "^4.17.1",
+    "jsonwebtoken": "^9.0.2",
     "mongoose": "^5.11.15"
   },
   "devDependencies": {
