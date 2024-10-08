@@ -12,27 +12,28 @@ services:
       - mongo
 
   mongo:
-    build:
-      context: .
-      dockerfile: docker/mongodb/Dockerfile
+    image: mongo:4.4
     container_name: mongo
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=${MONGO_INITDB_ROOT_USERNAME}
+      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_INITDB_ROOT_PASSWORD}
     volumes:
       - mongodb_data:/data/db
-      - ./src/mongodb/mongod.conf:/etc/mongod.conf
+      - ./mongodb/mongod.conf:/etc/mongod.conf
     ports:
       - "27017:27017"
 
-  mongo-express:
-    image: mongo-express:1.0.2-20-alpine3.19
-    container_name: mongo-express
-    environment:
-      - ME_CONFIG_MONGODB_ADMINUSERNAME=root
-      - ME_CONFIG_MONGODB_ADMINPASSWORD=example
-      - ME_CONFIG_MONGODB_SERVER=mongo
-    ports:
-      - "8081:8081"
-    depends_on:
-      - mongo
+  # mongo-express:
+  #   image: mongo-express:1.0.2-20-alpine3.19
+  #   container_name: mongo-express
+  #   environment:
+  #     - ME_CONFIG_MONGODB_ADMINUSERNAME=${MONGO_EXPRESS_ADMIN_USERNAME}
+  #     - ME_CONFIG_MONGODB_ADMINPASSWORD=${MONGO_EXPRESS_ADMIN_PASSWORD}
+  #     - ME_CONFIG_MONGODB_SERVER=mongo
+  #   ports:
+  #     - "${MONGO_EXPRESS_PORT}:8081"
+  #   depends_on:
+  #     - mongo
 
 volumes:
   mongodb_data:

@@ -1,10 +1,7 @@
 FROM mongo:4.4
 
-# Copy MongoDB configuration file
 COPY ./src/mongodb/mongod.conf /etc/mongod.conf
 
-# Expose port
 EXPOSE 27017
 
-# Run MongoDB with the custom configuration file
 CMD ["mongod", "--config", "/etc/mongod.conf"]
