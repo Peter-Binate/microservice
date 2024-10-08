@@ -1,7 +1,7 @@
 import { User, IUser } from "../models/user.model";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import { CreateUserDto } from "../dtos/user.dto";
+import { CreateUserDto, UpdateUserDto } from "../dtos/user.dto";
 
 export class UserService {
   async register(createUserDto: CreateUserDto): Promise<IUser> {
@@ -43,5 +43,30 @@ export class UserService {
     });
 
     return token;
+  }
+
+  async update(id: string, dto: UpdateUserDto): Promise<IUser> {
+    const { email, password, role } = dto;
+    try {
+      const user = await User.findOne({ id });
+      if (!user) throw new Error(`No user found with the id: ${id}`);
+
+      const updatedUser = await User.findOneAndUpdate({ id }, dto);
+      return updatedUser;
+    } catch (error) {
+      throw new Error(`Cannot Update the user with the id: ${id}`);
+    }
+  }
+
+  async delete(id: string): Promise<IUser> {
+    try {
+      const user = await User.findOne({ id });
+      if (!user) throw new Error(`No user found with the id: ${id}`);
+
+      const deletedUser = await User.findOneAndDelete({ id });
+      return deletedUser;
+    } catch (error) {
+      throw new Error(`Cannot delete the user with the id: ${id}`);
+    }
   }
 }
