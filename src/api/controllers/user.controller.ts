@@ -19,4 +19,12 @@ export class UserController {
   deleteUser(id: string) {
     this.userService.delete(id);
   }
+
+  findAll() {
+    this.userService.findAll();
+  }
+
+  findById(id: string) {
+    this.userService.findOne(id);
+  }
 }

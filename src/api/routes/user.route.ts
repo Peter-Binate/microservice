@@ -52,4 +52,23 @@ router.delete("/:id", async (req, res) => {
   }
 });
 
+router.get("/all", async (req, res) => {
+  try {
+    const users = await userController.findAll();
+    return res.status(200).send(users);
+  } catch (error: any) {
+    return res.status(404).json({ message: error.message });
+  }
+});
+
+router.get("/:id", async (req, res) => {
+  const id = req.params.id;
+  try {
+    const user = await userController.findById(id);
+    return res.status(200).send(user);
+  } catch (error: any) {
+    return res.status(404).json({ message: error.message });
+  }
+});
+
 export default router;
