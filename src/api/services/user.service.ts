@@ -1,7 +1,7 @@
 import { User, IUser } from "../models/user.model";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import { CreateUserDto, UpdateUserDto } from "../dtos/user.dto";
+import { CreateUserDto, UpdateUserDto, LoginDto } from "../dtos/user.dto";
 
 export class UserService {
   async register(createUserDto: CreateUserDto): Promise<IUser> {
@@ -26,7 +26,8 @@ export class UserService {
     return newUser;
   }
 
-  async login(email: string, password: string): Promise<string> {
+  async login(credentials: LoginDto): Promise<string> {
+    const { email, password } = credentials;
     const existingUser = await User.findOne({ email });
 
     if (

@@ -9,3 +9,8 @@ export class UpdateUserDto {
   readonly password?: string;
   readonly role?: boolean;
 }
+
+export class LoginDto {
+  readonly email: string;
+  readonly password: string;
+}
