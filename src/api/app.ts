@@ -5,6 +5,7 @@ import userRouter from "./routes/user.route";
 const app = express();
 const port = 3000;
 
+app.use("/users", userRouter);
 // Connect to MongoDB
 mongoose
   .connect("mongodb://mongo:27017/mydatabase")

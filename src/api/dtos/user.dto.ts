@@ -1,7 +1,7 @@
 export class CreateUserDto {
-  readonly email: string;
-  readonly password: string;
-  readonly role: boolean;
+  readonly email!: string;
+  readonly password!: string;
+  readonly role!: boolean;
 }
 
 export class UpdateUserDto {
@@ -11,6 +11,6 @@ export class UpdateUserDto {
 }
 
 export class LoginDto {
-  readonly email: string;
-  readonly password: string;
+  readonly email!: string;
+  readonly password!: string;
 }

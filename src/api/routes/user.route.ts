@@ -13,7 +13,7 @@ router.post("/register", async (req, res) => {
   try {
     const newUser = await userController.register(dto);
     return res.status(201).json(newUser);
-  } catch (error) {
+  } catch (error: any) {
     return res.status(400).json({ message: error.message });
   }
 });
@@ -24,7 +24,7 @@ router.post("/login", async (req, res) => {
   try {
     const token = await userController.login(dto);
     return res.status(200).json({ token });
-  } catch (error) {
+  } catch (error: any) {
     return res.status(401).json({ message: error.message });
   }
 });
@@ -36,7 +36,7 @@ router.put("/:id", async (req, res) => {
   try {
     const updatedUser = await userController.updateUser(id, dto);
     return res.status(200).json(updatedUser);
-  } catch (error) {
+  } catch (error: any) {
     return res.status(400).json({ message: error.message });
   }
 });
@@ -47,7 +47,7 @@ router.delete("/:id", async (req, res) => {
   try {
     await userController.deleteUser(id);
     return res.status(204).send();
-  } catch (error) {
+  } catch (error: any) {
     return res.status(400).json({ message: error.message });
   }
 });
