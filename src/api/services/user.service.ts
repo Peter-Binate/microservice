@@ -2,7 +2,6 @@ import { User, IUser } from "../models/user.model";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { CreateUserDto, UpdateUserDto, LoginDto } from "../dtos/user.dto";
-
 export class UserService {
   async register(createUserDto: CreateUserDto): Promise<IUser> {
     const { email, password, role } = createUserDto;
