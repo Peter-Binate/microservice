@@ -1,0 +1,16 @@
+# docker/node/Dockerfile
+FROM node:lts-slim
+
+# Create app directory
+WORKDIR /usr/src/app
+
+# Install app dependencies
+COPY src/api/package*.json ./
+RUN npm install
+
+# Bundle app source
+COPY src/api .
+
+# Expose port and start the application with ts-node
+EXPOSE 3000
+CMD ["npm", "run", "start"]

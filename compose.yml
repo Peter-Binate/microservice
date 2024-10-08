@@ -1,0 +1,38 @@
+services:
+  api:
+    build:
+      context: .
+      dockerfile: docker/node/Dockerfile
+    container_name: node
+    volumes:
+      - ./src/api:/usr/src/app
+    ports:
+      - "3000:3000"
+    depends_on:
+      - mongo
+
+  mongo:
+    build:
+      context: .
+      dockerfile: docker/mongodb/Dockerfile
+    container_name: mongo
+    volumes:
+      - mongodb_data:/data/db
+      - ./src/mongodb/mongod.conf:/etc/mongod.conf
+    ports:
+      - "27017:27017"
+
+  mongo-express:
+    image: mongo-express:1.0.2-20-alpine3.19
+    container_name: mongo-express
+    environment:
+      - ME_CONFIG_MONGODB_ADMINUSERNAME=root
+      - ME_CONFIG_MONGODB_ADMINPASSWORD=example
+      - ME_CONFIG_MONGODB_SERVER=mongo
+    ports:
+      - "8081:8081"
+    depends_on:
+      - mongo
+
+volumes:
+  mongodb_data:
