@@ -35,27 +35,24 @@ describe("UserService", () => {
         role: true,
       };
 
-      // Simuler que l'utilisateur n'existe pas
       (User.findOne as jest.Mock).mockResolvedValue(null);
 
-      // Simuler le hachage du mot de passe
       (bcrypt.hash as jest.Mock).mockResolvedValue("hashedpassword");
 
-      // Simuler la création de l'utilisateur
       const userInstance = {
         _id: "1",
         email: createUserDto.email,
         password: "hashedpassword",
         role: createUserDto.role,
-        save: jest.fn().mockResolvedValue(true), // Simuler la méthode save
+        save: jest.fn().mockResolvedValue(true),
       };
-      (User as jest.Mock).mockImplementation(() => userInstance); // Mock de la classe User
+      (User as jest.Mock).mockImplementation(() => userInstance);
 
       const result = await userService.register(createUserDto);
-      expect(result).toEqual(userInstance); // Compare avec l'instance simulée
+      expect(result).toEqual(userInstance);
       expect(User.findOne).toHaveBeenCalledWith({ email: createUserDto.email });
       expect(bcrypt.hash).toHaveBeenCalledWith(createUserDto.password, 10);
-      expect(userInstance.save).toHaveBeenCalled(); // Vérifie que save a été appelé
+      expect(userInstance.save).toHaveBeenCalled();
     });
 
     it("should throw an error if the email is already taken", async () => {
