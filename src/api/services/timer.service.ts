@@ -9,7 +9,7 @@ export class TimerService {
 
     if (!user) throw new Error(`No user found with this id`);
 
-    const time = dto.startTimestamp - dto.clickTimestamp;
+    const time = dto.clickTimestamp - dto.startTimestamp;
 
     const timerData: ITimerBase = {
       user_id: new mongoose.Types.ObjectId(userId),
