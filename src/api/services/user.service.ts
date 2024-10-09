@@ -52,41 +52,30 @@ export class UserService {
   }
 
   async findAll(): Promise<IUser[]> {
-    const users = await User.findMany();
-    if (!users) throw new Error("No users found");
+    const users = await User.find();
+    if (!users.length) throw new Error("No users found");
 
     return users;
   }
 
   async findOne(id: string): Promise<IUser> {
-    const user = await User.findOne({ id });
+    const user = await User.findById(id);
     if (!user) throw new Error(`No user found with the id: ${id}`);
 
     return user;
   }
 
   async update(id: string, dto: UpdateUserDto): Promise<IUser> {
-    const { email, password, role } = dto;
-    try {
-      const user = await User.findOne({ id });
-      if (!user) throw new Error(`No user found with the id: ${id}`);
+    const updatedUser = await User.findByIdAndUpdate(id, dto, { new: true });
+    if (!updatedUser) throw new Error(`No user found with the id: ${id}`);
 
-      const updatedUser = await User.findOneAndUpdate({ id }, dto);
-      return updatedUser;
-    } catch (error) {
-      throw new Error(`Cannot Update the user with the id: ${id}`);
-    }
+    return updatedUser;
   }
 
   async delete(id: string): Promise<IUser> {
-    try {
-      const user = await User.findOne({ id });
-      if (!user) throw new Error(`No user found with the id: ${id}`);
+    const deletedUser = await User.findByIdAndDelete(id);
+    if (!deletedUser) throw new Error(`No user found with the id: ${id}`);
 
-      const deletedUser = await User.findOneAndDelete({ id });
-      return deletedUser;
-    } catch (error) {
-      throw new Error(`Cannot delete the user with the id: ${id}`);
-    }
+    return deletedUser;
   }
 }

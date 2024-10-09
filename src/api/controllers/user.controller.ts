@@ -4,27 +4,27 @@ import { CreateUserDto, UpdateUserDto, LoginDto } from "../dtos/user.dto";
 export class UserController {
   constructor(private userService: UserService) {}
 
-  register(createUserDto: CreateUserDto) {
-    this.userService.register(createUserDto);
+  async register(createUserDto: CreateUserDto) {
+    return await this.userService.register(createUserDto);
   }
 
-  login(dto: LoginDto) {
-    this.userService.login(dto);
+  async login(dto: LoginDto) {
+    return await this.userService.login(dto);
   }
 
-  updateUser(id: string, dto: UpdateUserDto) {
-    this.userService.update(id, dto);
+  async updateUser(id: string, dto: UpdateUserDto) {
+    return await this.userService.update(id, dto);
   }
 
-  deleteUser(id: string) {
-    this.userService.delete(id);
+  async deleteUser(id: string) {
+    return await this.userService.delete(id);
   }
 
-  findAll() {
-    this.userService.findAll();
+  async findAll() {
+    return await this.userService.findAll();
   }
 
-  findById(id: string) {
-    this.userService.findOne(id);
+  async findById(id: string) {
+    return await this.userService.findOne(id);
   }
 }
