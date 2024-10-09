@@ -18,8 +18,8 @@ export class TimerService {
 
     const newTimer = new Timer(timerData);
 
-    await newTimer.save();
-    return newTimer;
+    const savedTimer = await newTimer.save();
+    return savedTimer;
   }
 
   async getTimers(userId: string): Promise<ITimer[]> {
@@ -43,7 +43,7 @@ export class TimerService {
       .sort({ time: 1 })
       .limit(limit);
 
-    if (!timers) throw new Error(`No timers found for this user`);
+    if (timers.length === 0) throw new Error(`No timers found for this user`);
 
     return timers;
   }
@@ -51,7 +51,7 @@ export class TimerService {
   async getAllTimers(): Promise<ITimer[]> {
     const timers = await Timer.find();
 
-    if (!timers) throw new Error(`No timers found `);
+    if (timers.length === 0) throw new Error(`No timers found `);
 
     return timers;
   }

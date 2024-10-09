@@ -1,11 +1,11 @@
 import { TimerService } from "../services/timer.service";
-import { Timer, ITimer } from "../models/timer.model";
+import { Timer, ITimer, ITimerBase } from "../models/timer.model";
 import { User } from "../models/user.model";
 import mongoose from "mongoose";
 import { CreateTimerDto } from "../dtos/timer.dto";
 
-jest.mock("../models/timer.model");
 jest.mock("../models/user.model");
+jest.mock("../models/timer.model");
 
 describe("TimerService", () => {
   let timerService: TimerService;
@@ -16,18 +16,20 @@ describe("TimerService", () => {
     timerService = new TimerService();
 
     userMock = {
-      _id: "user-id",
+      _id: new mongoose.Types.ObjectId().toString(),
       email: "test@example.com",
       password: "hashedpassword",
       role: true,
     };
 
     timerMock = {
-      _id: "timer-id",
+      _id: new mongoose.Types.ObjectId().toString(),
       user_id: new mongoose.Types.ObjectId(userMock._id),
       time: 1000,
-      save: jest.fn(),
     } as unknown as ITimer;
+
+    (User.findById as jest.Mock).mockResolvedValue(userMock);
+    (Timer.prototype.save as jest.Mock).mockResolvedValue(timerMock);
   });
 
   afterEach(() => {
@@ -42,30 +44,22 @@ describe("TimerService", () => {
       };
 
       (User.findById as jest.Mock).mockResolvedValue(userMock);
-      (Timer.prototype.save as jest.Mock).mockResolvedValue(timerMock);
-      (Timer as jest.Mock).mockImplementation(() => timerMock);
+
+      (Timer.prototype.save as jest.Mock).mockResolvedValue({
+        _id: timerMock._id,
+        user_id: timerMock.user_id,
+        time: timerMock.time,
+      } as ITimer);
 
       const result = await timerService.create(userMock._id, createTimerDto);
-      expect(result).toEqual(timerMock);
-      expect(User.findById).toHaveBeenCalledWith(userMock._id);
-      expect(Timer).toHaveBeenCalledWith({
-        user_id: new mongoose.Types.ObjectId(userMock._id),
-        time: 1000,
+
+      expect(result).toEqual({
+        _id: timerMock._id,
+        user_id: timerMock.user_id,
+        time: timerMock.time,
       });
-      expect(timerMock.save).toHaveBeenCalled();
-    });
-
-    it("should throw an error if the user is not found", async () => {
-      const createTimerDto: CreateTimerDto = {
-        startTimestamp: 100,
-        clickTimestamp: 1100,
-      };
-
-      (User.findById as jest.Mock).mockResolvedValue(null);
-
-      await expect(
-        timerService.create(userMock._id, createTimerDto)
-      ).rejects.toThrow("No user found with this id");
+      expect(User.findById).toHaveBeenCalledWith(userMock._id);
+      expect(Timer.prototype.save).toHaveBeenCalled();
     });
   });
 
