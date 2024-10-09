@@ -2,27 +2,21 @@ import express from "express";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 import userRouter from "./routes/user.route";
-import { log } from "console";
+import timerRouter from "./routes/timer.route";
 
-// Load environment variables
 dotenv.config();
 
 const app = express();
 
-// Middleware to parse JSON bodies
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Get MongoDB URI from environment variables
-const uri =
-  (process.env.MONGODB_URI as string) ??
-  "mongodb://gana:test_g@mongo:27017/myDatabase";
+const uri = process.env.MONGODB_URI as string;
 
 if (!uri) {
   throw new Error("MONGODB_URI environment variable is not defined");
 }
 
-// Connect to MongoDB
 mongoose
   .connect(uri, {
     useNewUrlParser: true,
@@ -33,8 +27,8 @@ mongoose
   .then(() => console.log("MongoDB connected"))
   .catch((err) => console.error(err));
 
-// Use the user router
 app.use("/users", userRouter);
+app.use("/timers", timerRouter);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {

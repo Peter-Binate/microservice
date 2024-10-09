@@ -27,9 +27,9 @@ export class TimerService {
 
     if (!user) throw new Error(`No user found with this id`);
 
-    const timers = await Timer.find({ where: { user_id: userId } });
+    const timers = await Timer.find({ user_id: userId });
 
-    if (!timers.length) throw new Error(`no timers found for this user`);
+    if (timers.length === 0) throw new Error(`No timers found for this user`);
 
     return timers;
   }
@@ -43,7 +43,15 @@ export class TimerService {
       .sort({ time: 1 })
       .limit(limit);
 
-    if (!timers.length) throw new Error(`No timers found for this user`);
+    if (!timers) throw new Error(`No timers found for this user`);
+
+    return timers;
+  }
+
+  async getAllTimers(): Promise<ITimer[]> {
+    const timers = await Timer.find();
+
+    if (!timers) throw new Error(`No timers found `);
 
     return timers;
   }

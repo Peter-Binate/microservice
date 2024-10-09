@@ -15,4 +15,8 @@ export class TimerController {
   async getBestTimers(userId: string, limit: number) {
     return await this.timerService.getBestTimers(userId, limit);
   }
+
+  async getAllTimers() {
+    return await this.timerService.getAllTimers();
+  }
 }
