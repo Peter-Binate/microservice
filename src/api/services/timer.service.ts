@@ -21,4 +21,30 @@ export class TimerService {
     await newTimer.save();
     return newTimer;
   }
+
+  async getTimers(userId: string): Promise<ITimer[]> {
+    const user = await User.findById(userId);
+
+    if (!user) throw new Error(`No user found with this id`);
+
+    const timers = await Timer.find({ where: { user_id: userId } });
+
+    if (!timers.length) throw new Error(`no timers found for this user`);
+
+    return timers;
+  }
+
+  async getBestTimers(userId: string, limit: number = 10): Promise<ITimer[]> {
+    const user = await User.findById(userId);
+
+    if (!user) throw new Error(`No user found with this id`);
+
+    const timers = await Timer.find({ user_id: userId })
+      .sort({ time: 1 })
+      .limit(limit);
+
+    if (!timers.length) throw new Error(`No timers found for this user`);
+
+    return timers;
+  }
 }
