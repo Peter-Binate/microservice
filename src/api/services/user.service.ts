@@ -8,10 +8,6 @@ export class UserService {
   async register(createUserDto: CreateUserDto): Promise<IUser> {
     const { email, password, role } = createUserDto;
 
-    console.log("====================================");
-    console.log(createUserDto);
-    console.log("====================================");
-
     const existingUser = await User.findOne({ email });
 
     if (existingUser) {

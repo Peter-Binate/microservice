@@ -6,7 +6,7 @@ import timerRouter from "./routes/timer.route";
 
 dotenv.config();
 
-const app = express();
+export const app = express();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -31,7 +31,7 @@ app.use("/users", userRouter);
 app.use("/timers", timerRouter);
 
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
+export const server = app.listen(PORT, () => {
   console.log(process.env.MONGODB_URI);
 
   console.log(`Server is running on port ${PORT}`);
