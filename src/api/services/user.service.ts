@@ -2,9 +2,15 @@ import { User, IUser } from "../models/user.model";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { CreateUserDto, UpdateUserDto, LoginDto } from "../dtos/user.dto";
+import { log } from "console";
+
 export class UserService {
   async register(createUserDto: CreateUserDto): Promise<IUser> {
     const { email, password, role } = createUserDto;
+
+    console.log("====================================");
+    console.log(createUserDto);
+    console.log("====================================");
 
     const existingUser = await User.findOne({ email });
 
@@ -38,7 +44,7 @@ export class UserService {
 
     const payload = { id: existingUser._id, email: existingUser.email };
 
-    const token = jwt.sign(payload, process.env.JWT_SECRET as string, {
+    const token = jwt.sign(payload, process.env.JWT_KEY as string, {
       expiresIn: "48h",
     });
 

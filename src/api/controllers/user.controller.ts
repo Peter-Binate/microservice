@@ -4,8 +4,8 @@ import { CreateUserDto, UpdateUserDto, LoginDto } from "../dtos/user.dto";
 export class UserController {
   constructor(private userService: UserService) {}
 
-  register(dto: CreateUserDto) {
-    this.userService.register(dto);
+  register(createUserDto: CreateUserDto) {
+    this.userService.register(createUserDto);
   }
 
   login(dto: LoginDto) {

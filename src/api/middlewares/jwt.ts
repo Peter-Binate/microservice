@@ -13,7 +13,7 @@ export const checkToken = (req: Request, res: Response, next: NextFunction) => {
   if (!token) {
     return res.status(403).send({ message: "Aucun token fourni!" });
   }
-  jwt.verify(token, process.env.JWT_SECRET, (err: any, decoded: any) => {
+  jwt.verify(token, process.env.JWT_KEY, (err: any, decoded: any) => {
     if (err) {
       console.log("JWT verification error:", err);
       return res.status(401).send({ message: "Non autorisé!" });
