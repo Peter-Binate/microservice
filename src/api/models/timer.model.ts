@@ -1,9 +1,15 @@
-const mongoose = require("mongoose");
-const Schema = mongoose.Schema;
+import mongoose, { Document, Schema } from "mongoose";
 
-let timerSchema = new Schema({
-  user_id: { required: "true", type: Schema.Types.ObjectId, ref: "User" },
-  time: { required: "true", type: Number },
+export interface ITimerBase {
+  user_id: mongoose.Types.ObjectId | string;
+  time: number;
+}
+
+export interface ITimer extends ITimerBase, Document {}
+
+const timerSchema = new Schema<ITimer>({
+  user_id: { required: true, type: Schema.Types.ObjectId, ref: "User" },
+  time: { required: true, type: Number },
 });
 
-export const Timer = mongoose.model("Timer", timerSchema);
+export const Timer = mongoose.model<ITimer>("Timer", timerSchema);
