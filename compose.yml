@@ -1,24 +1,27 @@
 services:
-  api:
+  user-service:
     build:
-      context: .
-      dockerfile: docker/node/Dockerfile
-    container_name: node
+      context: ./docker/user-service
+      dockerfile: dockerfile
+    container_name: user-service
     environment:
-      - MONGODB_URI=${MONGODB_URI}
+      - MONGODB_URI=${MONGODB_URI_USER}
       - JWT_KEY=${JWT_KEY}
     volumes:
-      - ./src/api:/usr/src/app
+      - ./user-service:/usr/src/app
     ports:
       - "3000:3000"
     depends_on:
       - mongo
 
-  mongo:
-    image: mongo:4.4
+  db-user:
+    build:
+      image: mongo:4.4
+      context: ./docker/mongodb
+      dockerfile: dockerfile
     container_name: mongo
     environment:
-      - MONGO_INITDB_DATABASE=${MONGO_INITDB_DATABASE}
+      - MONGO_INITDB_DATABASE=${MONGO_INITDB_DATABASE_USER}
       # - MONGO_INITDB_ROOT_USERNAME=${MONGO_INITDB_ROOT_USERNAME}
       # - MONGO_INITDB_ROOT_PASSWORD=${MONGO_INITDB_ROOT_PASSWORD}
     # volumes:
@@ -28,17 +31,3 @@ services:
 
     ports:
       - "27017:27017"
-#   mongo-express:
-#     image: mongo-express:1.0.2-20-alpine3.19
-#     container_name: mongo-express
-#     environment:
-#       - ME_CONFIG_MONGODB_ADMINUSERNAME=${MONGO_INITDB_ROOT_USERNAME}
-#       - ME_CONFIG_MONGODB_ADMINPASSWORD=${MONGO_INITDB_ROOT_PASSWORD}
-#       - ME_CONFIG_MONGODB_URL=${MONGODB_URI}
-#     ports:
-#       - "${MONGO_EXPRESS_PORT}:8081"
-#     depends_on:
-#       - mongo
-
-# volumes:
-#   mongodb_data:

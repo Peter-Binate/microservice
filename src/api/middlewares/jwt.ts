@@ -1,4 +1,4 @@
-import { User } from "../models/user.model";
+import { User } from "../../../user-services/src/api/models/user";
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
 import { Request, Response, NextFunction } from "express";

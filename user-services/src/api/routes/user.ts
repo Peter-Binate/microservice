@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { UserController } from "../controllers/user.controller";
+import { UserController } from "../controllers/user";
 import { UserService } from "../services/user";
 import { CreateUserDto, UpdateUserDto, LoginDto } from "../dtos/user";
 
