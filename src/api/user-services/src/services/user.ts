@@ -1,7 +1,7 @@
-import { User, IUser } from "../models/user.model";
+import { User, IUser } from "../models/user";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import { CreateUserDto, UpdateUserDto, LoginDto } from "../dtos/user.dto";
+import { CreateUserDto, UpdateUserDto, LoginDto } from "../dtos/user";
 import { log } from "console";
 
 export class UserService {

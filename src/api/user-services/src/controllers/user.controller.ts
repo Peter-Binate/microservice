@@ -1,5 +1,5 @@
-import { UserService } from "../services/user.service";
-import { CreateUserDto, UpdateUserDto, LoginDto } from "../dtos/user.dto";
+import { UserService } from "../services/user";
+import { CreateUserDto, UpdateUserDto, LoginDto } from "../dtos/user";
 
 export class UserController {
   constructor(private userService: UserService) {}

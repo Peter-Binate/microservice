@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { UserController } from "../controllers/user.controller";
-import { UserService } from "../services/user.service";
-import { CreateUserDto, UpdateUserDto, LoginDto } from "../dtos/user.dto";
+import { UserService } from "../services/user";
+import { CreateUserDto, UpdateUserDto, LoginDto } from "../dtos/user";
 
 const router = Router();
 const userService = new UserService();
