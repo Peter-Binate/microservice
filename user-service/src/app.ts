@@ -24,7 +24,7 @@ mongoose
     useFindAndModify: false,
   })
   .then(() => console.log("MongoDB connected"))
-  .catch((err) => console.error(err));
+  .catch((err: any) => console.error(err));
 
 app.use("/users", userRouter);
 

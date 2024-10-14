@@ -2,10 +2,12 @@ FROM node:lts-slim
 
 WORKDIR /usr/src/app
 
-COPY ./user-services/src/api/package*.json ./
+COPY ./user-service/src/api/package*.json ./
+
 RUN npm install
 
-COPY ./user-service/src/api .
+COPY user-service/src/api .
 
 EXPOSE 3000
+
 CMD ["npm", "run", "dev"]

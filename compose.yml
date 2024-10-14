@@ -1,8 +1,8 @@
 services:
   user-service:
     build:
-      context: ./docker/user-service
-      dockerfile: dockerfile
+      context: ./
+      dockerfile: ./docker/user-service/dockerfile
     container_name: user-service
     environment:
       - MONGODB_URI=${MONGODB_URI_USER}
@@ -12,14 +12,11 @@ services:
     ports:
       - "3000:3000"
     depends_on:
-      - mongo
+      - db-user
 
   db-user:
-    build:
-      image: mongo:4.4
-      context: ./docker/mongodb
-      dockerfile: dockerfile
-    container_name: mongo
+    image: mongo:7.0.14
+    container_name: db-user
     environment:
       - MONGO_INITDB_DATABASE=${MONGO_INITDB_DATABASE_USER}
       # - MONGO_INITDB_ROOT_USERNAME=${MONGO_INITDB_ROOT_USERNAME}
